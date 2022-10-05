@@ -3,18 +3,20 @@ const fs = require('fs');
 
 const server = http.createServer( function (req, res) {
     if(req.url == "/"){
-        fs.writeFile("data.txt", "hello data" , function(err){
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write("File created successfully");
-        });  
+       fs.rename("data1.txt", "data-file.txt", function(error){
+            if(error){
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.write("File name fail");
+                res.end();
+            }
+            else{
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.write("File name success");
+                res.end();
+            }
+        });
     }
-    else if(req.url == "/read"){
-        let data = fs.readFileSync("index.html");{
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write(data);
-            res.end();
-        };
-    }
+    
 });
 server.listen(3535);
 console.log("Server is running on port 3535");
